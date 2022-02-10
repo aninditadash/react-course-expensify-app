@@ -5,10 +5,9 @@
   "author": "Anindita Dash",
   "license": "MIT",
   "scripts": {
-    "serve": "live-server public/",
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
-    "dev-server": "webpack-dev-server",
+    "serve": "webpack-dev-server",
     "test": "jest --config=jest.config.json",
     "start": "node server/server.js",
     "heroku-postbuild": "npm run build:prod"
@@ -18,15 +17,10 @@
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/preset-env": "^7.16.8",
     "@babel/preset-react": "^7.16.7",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
-    "enzyme": "^3.11.0",
     "express": "^4.17.2",
-    "jest": "^27.5.0",
-    "jest-enzyme": "^7.1.2",
-    "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^2.5.3",
     "moment": "^2.29.1",
     "node-sass": "^7.0.1",
@@ -38,14 +32,20 @@
     "react-modal": "^3.14.4",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
-    "react-test-renderer": "^17.0.2",
     "redux": "^4.1.2",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
     "uuid": "^8.3.2",
     "validator": "^13.7.0",
     "webpack": "^5.66.0",
-    "webpack-cli": "^4.9.1",
+    "webpack-cli": "^4.9.1"
+  },
+  "devDependencies": {
+    "enzyme": "^3.11.0",
+    "jest": "^27.5.0",
+    "jest-enzyme": "^7.1.2",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "react-test-renderer": "^17.0.2",
     "webpack-dev-server": "^4.7.3"
   }
 }

@@ -9,8 +9,9 @@ module.exports = (env, argv) => {
     entry: "./src/app.js",
     mode: "development",
     output: {
-      path: path.join(__dirname, "public"),
-      filename: "bundle.js"
+      path: path.join(__dirname, "public", "dist"),
+      filename: "bundle.js",
+      publicPath: "/dist/"
     },
     // loader
     module: {
@@ -59,5 +60,3 @@ module.exports = (env, argv) => {
     }
   };
 };
-
-// module.exports = ;
