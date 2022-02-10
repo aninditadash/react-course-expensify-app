@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpenseListItem Component: Should render ExpenseListItem with expense 1 1`] = `
+<div>
+  <p>
+    Description: 
+    Water bill
+  </p>
+  <p>
+    Amount: 
+    4500
+  </p>
+  <p>
+    Created At: 
+    0
+  </p>
+  <Link
+    to="/edit/1"
+  >
+    Edit
+  </Link>
+</div>
+`;
+
+exports[`ExpenseListItem Component: Should render ExpenseListItem with expense 2 1`] = `
+<div>
+  <p>
+    Description: 
+    Rent
+  </p>
+  <p>
+    Amount: 
+    2500
+  </p>
+  <p>
+    Created At: 
+    -345600000
+  </p>
+  <Link
+    to="/edit/2"
+  >
+    Edit
+  </Link>
+</div>
+`;
