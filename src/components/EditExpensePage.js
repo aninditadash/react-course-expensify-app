@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import ExpenseForm from "./ExpenseForm";
 
-import { editExpense, removeExpense } from "../actions/expenses";
+import { editExpense, startRemoveExpense } from "../actions/expenses";
 
 export const EditExpensePage = (props) => {
   let { id } = useParams();
@@ -17,7 +17,7 @@ export const EditExpensePage = (props) => {
   };
 
   const onRemove = () => {
-    props.removeExpense({ id });
+    props.startRemoveExpense({ id });
     navigate("/");
   };
 
@@ -37,7 +37,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   editExpense: (id, expense) => dispatch(editExpense(id, expense)),
-  removeExpense: (data) => dispatch(removeExpense(data))
+  startRemoveExpense: (data) => dispatch(startRemoveExpense(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditExpensePage);

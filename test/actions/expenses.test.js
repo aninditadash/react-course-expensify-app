@@ -6,24 +6,12 @@ import {
   removeExpense,
   startAppExpense,
   setExpenses,
-  startSetExpenses
+  startSetExpenses,
+  startRemoveExpense
 } from "../../src/actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../src/firebase/firebase";
-import {
-  ref,
-  set,
-  update,
-  remove,
-  get,
-  child,
-  onValue,
-  off,
-  push,
-  onChildRemoved,
-  onChildChanged,
-  onChildAdded
-} from "firebase/database";
+import { ref, set, get, child } from "firebase/database";
 
 const createMockStore = configureMockStore([thunk]);
 const dbRef = ref(database, "expenses");
@@ -92,6 +80,25 @@ test("Expenses Selector: Should fetch expenses from database", (done) => {
   });
 });
 
+test("Expenses Selector: Should remove expense to database and store for a valid expense id", (done) => {
+  const store = createMockStore({});
+  const id = expenses[0].id;
+  store
+    .dispatch(startRemoveExpense({ id }))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "REMOVE_EXPENSE",
+        id
+      });
+      return get(child(dbRef, id));
+    })
+    .then((snapshot) => {
+      expect(snapshot.val()).toBeFalsy();
+      done();
+    });
+});
+
 test("Expenses Selector: Should add expense to database and store", (done) => {
   const store = createMockStore({});
   const expenseData = {
@@ -120,7 +127,7 @@ test("Expenses Selector: Should add expense to database and store", (done) => {
     });
 });
 
-test("Expenses Selector: Should add expense with defaults to database and store", () => {
+test("Expenses Selector: Should add expense with defaults to database and store", (done) => {
   const store = createMockStore({});
   const expenseData = {
     description: "",

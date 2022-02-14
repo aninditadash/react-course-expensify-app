@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import database from "../firebase/firebase";
-import { ref, set, push, get } from "firebase/database";
+import { ref, set, push, get, remove } from "firebase/database";
 
 // Action generators for EXPENSES
 
@@ -67,6 +67,14 @@ export const removeExpense = ({ id = "" } = {}) => ({
   id
 });
 
+export const startRemoveExpense = ({ id = "" }) => {
+  return (dispatch) => {
+    return remove(ref(database, `expenses/${id}`)).then(() => {
+      dispatch(removeExpense({ id }));
+    });
+  };
+};
+
 // EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
   type: "EDIT_EXPENSE",
@@ -92,7 +100,6 @@ export const startSetExpenses = () => {
             ...childSnapshot.val()
           });
         });
-        console.log("Expenses list::: ", expenses);
         dispatch(setExpenses(expenses));
       })
       .catch((e) => console.log("Error fetching data:: ", e));
