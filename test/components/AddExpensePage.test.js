@@ -10,11 +10,11 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockedUsedNavigate
 }));
 
-let addExpense, wrapper;
+let startAppExpense, wrapper;
 
 beforeEach(() => {
-  addExpense = jest.fn();
-  wrapper = shallow(<AddExpensePage addExpense={addExpense} />);
+  startAppExpense = jest.fn();
+  wrapper = shallow(<AddExpensePage startAppExpense={startAppExpense} />);
 });
 
 test("AddExpensePage Component: Should render AddExpensePage correctly", () => {
@@ -24,5 +24,5 @@ test("AddExpensePage Component: Should render AddExpensePage correctly", () => {
 test("AddExpensePage Component: Should handle addExpense", () => {
   wrapper.find("ExpenseForm").prop("onSubmit")(expenses[1]);
   expect(mockedUsedNavigate).toHaveBeenLastCalledWith("/");
-  expect(addExpense).toHaveBeenLastCalledWith(expenses[1]);
+  expect(startAppExpense).toHaveBeenLastCalledWith(expenses[1]);
 });

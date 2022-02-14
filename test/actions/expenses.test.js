@@ -1,10 +1,31 @@
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 import {
   addExpense,
   editExpense,
-  removeExpense
+  removeExpense,
+  startAppExpense
 } from "../../src/actions/expenses";
+import expenses from "../fixtures/expenses";
+import database from "../../src/firebase/firebase";
+import {
+  ref,
+  set,
+  update,
+  remove,
+  get,
+  child,
+  onValue,
+  off,
+  push,
+  onChildRemoved,
+  onChildChanged,
+  onChildAdded
+} from "firebase/database";
 
-test("Should setup remove expense action object", () => {
+const createMockStore = configureMockStore([thunk]);
+
+test("Expenses Selector: Should setup remove expense action object", () => {
   const action = removeExpense({ id: "123abc" });
   expect(action).toEqual({
     type: "REMOVE_EXPENSE",
@@ -12,7 +33,7 @@ test("Should setup remove expense action object", () => {
   });
 });
 
-test("Should setup edit expense action object", () => {
+test("Expenses Selector: Should setup edit expense action object", () => {
   const action = editExpense("123abc", {
     description: "This is a new description",
     amount: 100.0
@@ -27,33 +48,66 @@ test("Should setup edit expense action object", () => {
   });
 });
 
-test("Should setup add expense action object", () => {
-  const expenseData = {
-    description: "Rent",
-    amount: 10934,
-    createdAt: 10000,
-    note: 'This was last month"s rent'
-  };
-  const action = addExpense(expenseData);
+test("Expenses Selector: Should setup add expense action object", () => {
+  const action = addExpense(expenses[2]);
   expect(action).toEqual({
     type: "ADD_EXPENSE",
-    expense: {
-      ...expenseData,
-      id: expect.any(String)
-    }
+    expense: expenses[2]
   });
 });
 
-test("Should setup add expense action object with default values", () => {
-  const action = addExpense();
-  expect(action).toEqual({
-    type: "ADD_EXPENSE",
-    expense: {
-      description: "",
-      note: "",
-      amount: 0,
-      createdAt: 0,
-      id: expect.any(String)
-    }
-  });
+test("Expenses Selector: Should add expense to database and store", (done) => {
+  const store = createMockStore({});
+  const expenseData = {
+    description: "Phone bill",
+    amount: 130,
+    note: "This is a note",
+    createdAt: 1000
+  };
+  const dbRef = ref(database, "expenses");
+  store
+    .dispatch(startAppExpense(expenseData))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "ADD_EXPENSE",
+        expense: {
+          id: expect.any(String),
+          ...expenseData
+        }
+      });
+      return get(child(dbRef, `${actions[0].expense.id}`));
+    })
+    .then((snapshot) => {
+      expect(snapshot.val()).toEqual(expenseData);
+      done();
+    });
+});
+
+test("Expenses Selector: Should add expense with defaults to database and store", () => {
+  const store = createMockStore({});
+  const expenseData = {
+    description: "",
+    amount: 0,
+    note: "",
+    createdAt: 0
+  };
+  const dbRef = ref(database, "expenses");
+  store
+    .dispatch(startAppExpense(expenseData))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "ADD_EXPENSE",
+        expense: {
+          id: expect.any(String),
+          ...expenseData
+        }
+      });
+      return get(child(dbRef, `${actions[0].expense.id}`));
+    })
+    .then((snapshot) => {
+      expect(snapshot.val()).toEqual(expenseData);
+      done();
+    });
 });
