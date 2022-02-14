@@ -7,7 +7,8 @@ import {
   startAppExpense,
   setExpenses,
   startSetExpenses,
-  startRemoveExpense
+  startRemoveExpense,
+  startEditExpense
 } from "../../src/actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../src/firebase/firebase";
@@ -95,6 +96,29 @@ test("Expenses Selector: Should remove expense to database and store for a valid
     })
     .then((snapshot) => {
       expect(snapshot.val()).toBeFalsy();
+      done();
+    });
+});
+
+test("Expenses Selector: Should edit the expense in the database", (done) => {
+  const store = createMockStore({});
+  const id = expenses[0].id;
+  const updates = {
+    amount: 4000
+  };
+  store
+    .dispatch(startEditExpense(id, updates))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "EDIT_EXPENSE",
+        id,
+        updates
+      });
+      return get(child(dbRef, id));
+    })
+    .then((snapshot) => {
+      expect(snapshot.val().amount).toEqual(updates.amount);
       done();
     });
 });

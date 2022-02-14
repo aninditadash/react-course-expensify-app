@@ -4,7 +4,11 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import ExpenseForm from "./ExpenseForm";
 
-import { editExpense, startRemoveExpense } from "../actions/expenses";
+import {
+  editExpense,
+  startRemoveExpense,
+  startEditExpense
+} from "../actions/expenses";
 
 export const EditExpensePage = (props) => {
   let { id } = useParams();
@@ -12,7 +16,7 @@ export const EditExpensePage = (props) => {
   const selectedExpense = props.expenses.find((expense) => expense.id === id);
 
   const onSubmit = (expense) => {
-    props.editExpense(id, expense);
+    props.startEditExpense(id, expense);
     navigate("/");
   };
 
@@ -36,7 +40,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  editExpense: (id, expense) => dispatch(editExpense(id, expense)),
+  startEditExpense: (id, expense) => dispatch(startEditExpense(id, expense)),
   startRemoveExpense: (data) => dispatch(startRemoveExpense(data))
 });
 

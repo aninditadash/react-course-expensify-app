@@ -13,15 +13,15 @@ jest.mock("react-router-dom", () => ({
   useParams: () => mockedUsedParams
 }));
 
-let editExpense, startRemoveExpense, wrapper;
+let startEditExpense, startRemoveExpense, wrapper;
 
 beforeEach(() => {
-  editExpense = jest.fn();
+  startEditExpense = jest.fn();
   startRemoveExpense = jest.fn();
   wrapper = shallow(
     <EditExpensePage
       expenses={expenses}
-      editExpense={editExpense}
+      startEditExpense={startEditExpense}
       startRemoveExpense={startRemoveExpense}
     />
   );
@@ -34,7 +34,10 @@ test("EditExpensePage Component: Should render EditExpensePage correctly", () =>
 
 test("EditExpensePage Component: Should handle editExpense", () => {
   wrapper.find("ExpenseForm").prop("onSubmit")(expenses[1]);
-  expect(editExpense).toHaveBeenLastCalledWith(expenses[1].id, expenses[1]);
+  expect(startEditExpense).toHaveBeenLastCalledWith(
+    expenses[1].id,
+    expenses[1]
+  );
   expect(mockedUsedNavigate).toHaveBeenLastCalledWith("/");
 });
 

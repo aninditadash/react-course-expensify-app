@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import database from "../firebase/firebase";
-import { ref, set, push, get, remove } from "firebase/database";
+import { ref, set, push, get, remove, update } from "firebase/database";
 
 // Action generators for EXPENSES
 
@@ -81,6 +81,14 @@ export const editExpense = (id, updates) => ({
   id,
   updates
 });
+
+export const startEditExpense = (id, updates) => {
+  return (dispatch) => {
+    return update(ref(database, `expenses/${id}`), updates).then(() => {
+      dispatch(editExpense(id, updates));
+    });
+  };
+};
 
 // SET_EXPENSES
 export const setExpenses = (expenses) => ({
