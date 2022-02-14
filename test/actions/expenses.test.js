@@ -4,7 +4,9 @@ import {
   addExpense,
   editExpense,
   removeExpense,
-  startAppExpense
+  startAppExpense,
+  setExpenses,
+  startSetExpenses
 } from "../../src/actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../src/firebase/firebase";
@@ -24,6 +26,20 @@ import {
 } from "firebase/database";
 
 const createMockStore = configureMockStore([thunk]);
+const dbRef = ref(database, "expenses");
+
+beforeEach((done) => {
+  const expenseData = {};
+  expenses.forEach(({ id, description, note, amount, createdAt }) => {
+    expenseData[id] = {
+      description,
+      note,
+      amount,
+      createdAt
+    };
+  });
+  set(dbRef, expenseData).then(() => done());
+});
 
 test("Expenses Selector: Should setup remove expense action object", () => {
   const action = removeExpense({ id: "123abc" });
@@ -56,6 +72,26 @@ test("Expenses Selector: Should setup add expense action object", () => {
   });
 });
 
+test("Expenses Selector: Should setup set expense action object", () => {
+  const action = setExpenses(expenses);
+  expect(action).toEqual({
+    type: "SET_EXPENSES",
+    expenses
+  });
+});
+
+test("Expenses Selector: Should fetch expenses from database", (done) => {
+  const store = createMockStore({});
+  store.dispatch(startSetExpenses()).then(() => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: "SET_EXPENSES",
+      expenses
+    });
+    done();
+  });
+});
+
 test("Expenses Selector: Should add expense to database and store", (done) => {
   const store = createMockStore({});
   const expenseData = {
@@ -64,7 +100,7 @@ test("Expenses Selector: Should add expense to database and store", (done) => {
     note: "This is a note",
     createdAt: 1000
   };
-  const dbRef = ref(database, "expenses");
+
   store
     .dispatch(startAppExpense(expenseData))
     .then(() => {
@@ -92,7 +128,6 @@ test("Expenses Selector: Should add expense with defaults to database and store"
     note: "",
     createdAt: 0
   };
-  const dbRef = ref(database, "expenses");
   store
     .dispatch(startAppExpense(expenseData))
     .then(() => {

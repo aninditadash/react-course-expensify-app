@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 
 import database from "../firebase/firebase";
-import { ref, set, push } from "firebase/database";
+import { ref, set, push, get } from "firebase/database";
 
 // Action generators for EXPENSES
 
@@ -33,6 +33,7 @@ import { ref, set, push } from "firebase/database";
 //   }
 // });
 
+// ADD_EXPENSE
 export const addExpense = (expense = {}) => ({
   type: "ADD_EXPENSE",
   expense
@@ -72,3 +73,28 @@ export const editExpense = (id, updates) => ({
   id,
   updates
 });
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+  type: "SET_EXPENSES",
+  expenses
+});
+
+export const startSetExpenses = () => {
+  return (dispatch) => {
+    const dataRef = ref(database, "expenses");
+    return get(dataRef)
+      .then((snapshot) => {
+        const expenses = [];
+        snapshot.forEach((childSnapshot) => {
+          expenses.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+          });
+        });
+        console.log("Expenses list::: ", expenses);
+        dispatch(setExpenses(expenses));
+      })
+      .catch((e) => console.log("Error fetching data:: ", e));
+  };
+};
