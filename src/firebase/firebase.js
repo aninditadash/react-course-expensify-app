@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase, ref, push, update, set } from "firebase/database";
 
 const firebaseConfig = {
@@ -13,10 +14,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
-
+const firebaseApp = initializeApp(firebaseConfig);
 const db = getDatabase();
-// const dbRef = ref(db);
-// const expensesRef = ref(db, "expenses");
+const googleAuthProvider = new GoogleAuthProvider().setCustomParameters({
+  prompt: "select_account"
+});
+const auth = getAuth(firebaseApp);
 
-export { db as default };
+export { googleAuthProvider, db as default, auth };

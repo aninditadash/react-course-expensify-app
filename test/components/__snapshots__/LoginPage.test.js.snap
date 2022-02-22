@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage Component: Should render LoginPage correctly 1`] = `
+<div>
+  Login Page
+  <button
+    onClick={[MockFunction]}
+  >
+    Login
+  </button>
+</div>
+`;

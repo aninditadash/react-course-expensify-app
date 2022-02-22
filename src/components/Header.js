@@ -1,14 +1,20 @@
 import React from "react";
+import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { startLogout } from "../actions/auth";
 
-const Header = () => (
+// import { history } from "../routers/AppRouter";
+
+// import history from "../history";
+
+export const Header = ({ startLogout }) => (
   <header>
     <h1>Expensify</h1>
     <NavLink
-      to="/"
+      to="/dashboard"
       className={({ isActive }) => (isActive ? "is-active" : undefined)}
     >
-      Home
+      Dashboard
     </NavLink>
     <NavLink
       to="/create"
@@ -28,7 +34,15 @@ const Header = () => (
     >
       Help
     </NavLink>
+    <button onClick={startLogout}>Logout</button>
   </header>
 );
 
-export default Header;
+const mapStateToProps = (dispatch) => ({
+  startLogout: () => {
+    // history.push("/");
+    return dispatch(startLogout());
+  }
+});
+
+export default connect(undefined, mapStateToProps)(Header);

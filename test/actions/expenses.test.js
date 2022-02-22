@@ -14,8 +14,10 @@ import expenses from "../fixtures/expenses";
 import database from "../../src/firebase/firebase";
 import { ref, set, get, child } from "firebase/database";
 
+const uid = "test_user_uid";
+const defaultAuthState = { auth: { uid } };
 const createMockStore = configureMockStore([thunk]);
-const dbRef = ref(database, "expenses");
+const dbRef = ref(database, `users/${uid}/expenses`);
 
 beforeEach((done) => {
   const expenseData = {};
@@ -30,7 +32,7 @@ beforeEach((done) => {
   set(dbRef, expenseData).then(() => done());
 });
 
-test("Expenses Selector: Should setup remove expense action object", () => {
+test("Expenses Action Selector: Should setup remove expense action object", () => {
   const action = removeExpense({ id: "123abc" });
   expect(action).toEqual({
     type: "REMOVE_EXPENSE",
@@ -53,7 +55,7 @@ test("Expenses Selector: Should setup edit expense action object", () => {
   });
 });
 
-test("Expenses Selector: Should setup add expense action object", () => {
+test("Expenses Action Selector: Should setup add expense action object", () => {
   const action = addExpense(expenses[2]);
   expect(action).toEqual({
     type: "ADD_EXPENSE",
@@ -61,7 +63,7 @@ test("Expenses Selector: Should setup add expense action object", () => {
   });
 });
 
-test("Expenses Selector: Should setup set expense action object", () => {
+test("Expenses Action Selector: Should setup set expense action object", () => {
   const action = setExpenses(expenses);
   expect(action).toEqual({
     type: "SET_EXPENSES",
@@ -69,8 +71,8 @@ test("Expenses Selector: Should setup set expense action object", () => {
   });
 });
 
-test("Expenses Selector: Should fetch expenses from database", (done) => {
-  const store = createMockStore({});
+test("Expenses Action Selector: Should fetch expenses from database", (done) => {
+  const store = createMockStore(defaultAuthState);
   store.dispatch(startSetExpenses()).then(() => {
     const actions = store.getActions();
     expect(actions[0]).toEqual({
@@ -81,8 +83,8 @@ test("Expenses Selector: Should fetch expenses from database", (done) => {
   });
 });
 
-test("Expenses Selector: Should remove expense to database and store for a valid expense id", (done) => {
-  const store = createMockStore({});
+test("Expenses Action Selector: Should remove expense to database and store for a valid expense id", (done) => {
+  const store = createMockStore(defaultAuthState);
   const id = expenses[0].id;
   store
     .dispatch(startRemoveExpense({ id }))
@@ -100,8 +102,8 @@ test("Expenses Selector: Should remove expense to database and store for a valid
     });
 });
 
-test("Expenses Selector: Should edit the expense in the database", (done) => {
-  const store = createMockStore({});
+test("Expenses Action Selector: Should edit the expense in the database", (done) => {
+  const store = createMockStore(defaultAuthState);
   const id = expenses[0].id;
   const updates = {
     amount: 4000
@@ -123,8 +125,8 @@ test("Expenses Selector: Should edit the expense in the database", (done) => {
     });
 });
 
-test("Expenses Selector: Should add expense to database and store", (done) => {
-  const store = createMockStore({});
+test("Expenses Action Selector: Should add expense to database and store", (done) => {
+  const store = createMockStore(defaultAuthState);
   const expenseData = {
     description: "Phone bill",
     amount: 130,
@@ -151,8 +153,8 @@ test("Expenses Selector: Should add expense to database and store", (done) => {
     });
 });
 
-test("Expenses Selector: Should add expense with defaults to database and store", (done) => {
-  const store = createMockStore({});
+test("Expenses Action Selector: Should add expense with defaults to database and store", (done) => {
+  const store = createMockStore(defaultAuthState);
   const expenseData = {
     description: "",
     amount: 0,

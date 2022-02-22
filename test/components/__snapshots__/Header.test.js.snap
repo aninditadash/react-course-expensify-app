@@ -7,9 +7,9 @@ exports[`Header Component: Should render Header correctly 1`] = `
   </h1>
   <NavLink
     className={[Function]}
-    to="/"
+    to="/dashboard"
   >
-    Home
+    Dashboard
   </NavLink>
   <NavLink
     className={[Function]}
@@ -29,5 +29,10 @@ exports[`Header Component: Should render Header correctly 1`] = `
   >
     Help
   </NavLink>
+  <button
+    onClick={[MockFunction]}
+  >
+    Logout
+  </button>
 </header>
 `;

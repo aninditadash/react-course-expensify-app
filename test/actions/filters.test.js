@@ -7,7 +7,7 @@ import {
   sortByAmount
 } from "../../src/actions/filters";
 
-test("Filters Selector: Should generate setStartDate action object", () => {
+test("Filters Action Selector: Should generate setStartDate action object", () => {
   const action = setStartDate(moment(0));
   expect(action).toEqual({
     type: "SET_START_DATE",
@@ -15,7 +15,7 @@ test("Filters Selector: Should generate setStartDate action object", () => {
   });
 });
 
-test("Filters Selector: Should generate setEndDate action object", () => {
+test("Filters Action Selector: Should generate setEndDate action object", () => {
   const action = setEndDate(moment(0));
   expect(action).toEqual({
     type: "SET_END_DATE",
@@ -23,7 +23,7 @@ test("Filters Selector: Should generate setEndDate action object", () => {
   });
 });
 
-test("Filters Selector: Should generate setTextFilter action object", () => {
+test("Filters Action Selector: Should generate setTextFilter action object", () => {
   const text = "Rent";
   const action = setTextFilter(text);
   expect(action).toEqual({
@@ -32,20 +32,20 @@ test("Filters Selector: Should generate setTextFilter action object", () => {
   });
 });
 
-test("Filters Selector: Should generate setTextFilter action object with default", () => {
+test("Filters Action Selector: Should generate setTextFilter action object with default", () => {
   expect(setTextFilter()).toEqual({
     type: "SET_TEXT_FILTER",
     text: ""
   });
 });
 
-test("Filters Selector: Should generate sortByDate action object", () => {
+test("Filters Action Selector: Should generate sortByDate action object", () => {
   expect(sortByDate()).toEqual({
     type: "SORT_BY_DATE"
   });
 });
 
-test("Filters Selector: Should generate sortByAmount action object", () => {
+test("Filters Action Selector: Should generate sortByAmount action object", () => {
   expect(sortByAmount()).toEqual({
     type: "SORT_BY_AMOUNT"
   });

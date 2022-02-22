@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Router, BrowserRouter } from "react-router-dom";
+// import { createBrowserHistory } from "history";
 
 import ExpenseDashboardPage from "../components/ExpenseDashboardPage";
 import EditExpensePage from "../components/EditExpensePage";
@@ -7,13 +8,30 @@ import AddExpensePage from "../components/AddExpensePage";
 import HelpPage from "../components/HelpPage";
 import NotFoundPage from "../components/NotFoundPage";
 import Header from "../components/Header";
+import LoginPage from "../components/LoginPage";
+import history from "../history";
+
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+
+// const history = createBrowserHistory();
 
 const AppRouter = () => (
-  <Router>
-    <Header />
+  // <Router location={history.location} history={history}>
+  <Router location={history.location} navigator={history}>
+    {/* <Header /> */}
     <Routes>
-      <Route path="/" element={<ExpenseDashboardPage />} />
-      <Route path="/create" element={<AddExpensePage />} />
+      <Route path="/" element={<PublicRoute />}>
+        <Route path="/" element={<LoginPage />} />
+      </Route>
+      {/* <Route path="/" element={<LoginPage />} /> */}
+      <Route path="/dashboard" element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<ExpenseDashboardPage />} />
+      </Route>
+      <Route path="/create" element={<PrivateRoute />}>
+        <Route path="/create" element={<AddExpensePage />} />
+      </Route>
+      {/* <Route path="/create" element={<AddExpensePage />} /> */}
       <Route path="/edit" element={<EditExpensePage />}>
         <Route path=":id" element={<EditExpensePage />} />
       </Route>
@@ -24,3 +42,5 @@ const AppRouter = () => (
 );
 
 export default AppRouter;
+
+// export { history };
