@@ -1,45 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ExpenseListItem Component: Should render ExpenseListItem with expense 1 1`] = `
-<div>
-  <p>
-    Description: 
-    Water bill
-  </p>
-  <p>
-    Amount: 
+<Link
+  className="expense-list-item"
+  to="/edit/1"
+>
+  <div>
+    <p
+      className="expense-list-item__title expense-list-item--bold"
+    >
+      Water bill
+    </p>
+    <p
+      className="expense-list-item__subtitle"
+    >
+      January 1st, 1970
+    </p>
+  </div>
+  <p
+    className="expense-list-item__data expense-list-item--bold"
+  >
     $4,500.00
   </p>
-  <p>
-    Created At: 
-    January 1st, 1970
-  </p>
-  <Link
-    to="/edit/1"
-  >
-    Edit
-  </Link>
-</div>
+</Link>
 `;
 
 exports[`ExpenseListItem Component: Should render ExpenseListItem with expense 2 1`] = `
-<div>
-  <p>
-    Description: 
-    Rent
-  </p>
-  <p>
-    Amount: 
+<Link
+  className="expense-list-item"
+  to="/edit/2"
+>
+  <div>
+    <p
+      className="expense-list-item__title expense-list-item--bold"
+    >
+      Rent
+    </p>
+    <p
+      className="expense-list-item__subtitle"
+    >
+      December 28th, 1969
+    </p>
+  </div>
+  <p
+    className="expense-list-item__data expense-list-item--bold"
+  >
     $2,500.00
   </p>
-  <p>
-    Created At: 
-    December 28th, 1969
-  </p>
-  <Link
-    to="/edit/2"
-  >
-    Edit
-  </Link>
-</div>
+</Link>
 `;

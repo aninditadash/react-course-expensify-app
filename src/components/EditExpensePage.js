@@ -4,11 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import ExpenseForm from "./ExpenseForm";
 
-import {
-  editExpense,
-  startRemoveExpense,
-  startEditExpense
-} from "../actions/expenses";
+import { startRemoveExpense, startEditExpense } from "../actions/expenses";
 
 export const EditExpensePage = (props) => {
   let { id } = useParams();
@@ -26,10 +22,19 @@ export const EditExpensePage = (props) => {
   };
 
   return (
-    <div>
-      <ExpenseForm expense={selectedExpense} onSubmit={onSubmit} />
-      <button onClick={onRemove}>Remove</button>
-    </div>
+    <>
+      <div className="page-header">
+        <div className="content-container">
+          <h1 className="page-header__title">Edit Expense</h1>
+        </div>
+      </div>
+      <div className="content-container">
+        <ExpenseForm expense={selectedExpense} onSubmit={onSubmit} />
+        <button className="button button--secondary" onClick={onRemove}>
+          Remove Expense
+        </button>
+      </div>
+    </>
   );
 };
 

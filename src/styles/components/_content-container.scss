@@ -1,0 +1,6 @@
+.content-container {
+  margin: 0 auto;
+  //   max-width: 80vw;
+  max-width: 80vw; // add it to media query for large screen
+  padding: 0 $m-size;
+}

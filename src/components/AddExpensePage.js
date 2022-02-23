@@ -14,11 +14,16 @@ export const AddExpensePage = (props) => {
   };
 
   return (
-    <div>
-      This is from my add expense component
-      <h1>Add Expense</h1>
-      <ExpenseForm onSubmit={onSubmit} />
-    </div>
+    <>
+      <div className="page-header">
+        <div className="content-container">
+          <h1 className="page-header__title">Add Expense</h1>
+        </div>
+      </div>
+      <div className="content-container">
+        <ExpenseForm onSubmit={onSubmit} />
+      </div>
+    </>
   );
 };
 

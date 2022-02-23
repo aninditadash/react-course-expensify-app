@@ -11,7 +11,7 @@ import "react-dates/lib/css/_datepicker.css";
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { BrowserRouter } from "react-router-dom";
-
+import LoadingPage from "./components/LoadingPage";
 import history from "./history";
 
 export const store = configureStore();
@@ -32,7 +32,7 @@ const render = () => {
   }
 };
 
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 onAuthStateChanged(auth, (user) => {
   // Check for user status

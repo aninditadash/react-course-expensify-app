@@ -25,15 +25,17 @@ const AppRouter = () => (
         <Route path="/" element={<LoginPage />} />
       </Route>
       {/* <Route path="/" element={<LoginPage />} /> */}
-      <Route path="/dashboard" element={<PrivateRoute />}>
+      <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<ExpenseDashboardPage />} />
       </Route>
-      <Route path="/create" element={<PrivateRoute />}>
+      <Route element={<PrivateRoute />}>
         <Route path="/create" element={<AddExpensePage />} />
       </Route>
       {/* <Route path="/create" element={<AddExpensePage />} /> */}
-      <Route path="/edit" element={<EditExpensePage />}>
-        <Route path=":id" element={<EditExpensePage />} />
+      <Route element={<PrivateRoute />}>
+        <Route path="/edit" element={<EditExpensePage />}>
+          <Route path=":id" element={<EditExpensePage />} />
+        </Route>
       </Route>
       <Route path="/help" element={<HelpPage />} />
       <Route path="*" element={<NotFoundPage />} />
